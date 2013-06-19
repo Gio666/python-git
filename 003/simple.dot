@@ -1,0 +1,17 @@
+strict digraph  {
+	graph [diredgeconstraints=true,
+		label=Familia,
+		mode=ipsep,
+		overlap=orthoxy,
+		sep=0.5
+	];
+	node [shape=box,
+		style=rounded
+	];
+	"NEHEMIAS ESAU HERRERA  SANCHO "	 [color=yellow,
+		style="filled,rounded"];
+	"."	 [shape=point];
+	"ANA GABRIELA SANCHO FONSECA " -> "."	 [arrowhead=none];
+	"LUIS GMO HERRERA MELENDEZ " -> "."	 [arrowhead=none];
+	"." -> "NEHEMIAS ESAU HERRERA  SANCHO "	 [arrowhead=none];
+}

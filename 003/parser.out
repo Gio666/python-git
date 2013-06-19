@@ -1,0 +1,201 @@
+Created by PLY version 3.4 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    ID_NACIONALIDAD
+    ID_EDAD
+    ID_SEXO
+    ID_FECHA_DE_NACIMIENTO
+    SEXO
+    ID_IDENTIFICACION_DE_LA_MADRE
+    ID_CONOCIDO_COMO
+    ID_IDENTIFICACION_DEL_PADRE
+    FECHA
+    CEDULA
+    ID_CEDULA
+
+Grammar
+
+Rule 0     S' -> elementos
+Rule 1     elementos -> nombre nombreDelPadre nombreDeLaMadre
+Rule 2     nombre -> SPAN_INICIO ID_NOMBRE_COMPLETO SPAN_STYLE NOMBRE SPAN_CIERRE
+Rule 3     nombreDelPadre -> SPAN_INICIO ID_NOMBRE_DEL_PADRE SPAN_STYLE NOMBRE SPAN_CIERRE
+Rule 4     nombreDeLaMadre -> SPAN_INICIO ID_NOMBRE_DE_LA_MADRE SPAN_STYLE NOMBRE SPAN_CIERRE
+
+Terminals, with rules where they appear
+
+CEDULA               : 
+FECHA                : 
+ID_CEDULA            : 
+ID_CONOCIDO_COMO     : 
+ID_EDAD              : 
+ID_FECHA_DE_NACIMIENTO : 
+ID_IDENTIFICACION_DEL_PADRE : 
+ID_IDENTIFICACION_DE_LA_MADRE : 
+ID_NACIONALIDAD      : 
+ID_NOMBRE_COMPLETO   : 2
+ID_NOMBRE_DEL_PADRE  : 3
+ID_NOMBRE_DE_LA_MADRE : 4
+ID_SEXO              : 
+NOMBRE               : 2 3 4
+SEXO                 : 
+SPAN_CIERRE          : 2 3 4
+SPAN_INICIO          : 2 3 4
+SPAN_STYLE           : 2 3 4
+error                : 
+
+Nonterminals, with rules where they appear
+
+elementos            : 0
+nombre               : 1
+nombreDeLaMadre      : 1
+nombreDelPadre       : 1
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . elementos
+    (1) elementos -> . nombre nombreDelPadre nombreDeLaMadre
+    (2) nombre -> . SPAN_INICIO ID_NOMBRE_COMPLETO SPAN_STYLE NOMBRE SPAN_CIERRE
+
+    SPAN_INICIO     shift and go to state 2
+
+    nombre                         shift and go to state 1
+    elementos                      shift and go to state 3
+
+state 1
+
+    (1) elementos -> nombre . nombreDelPadre nombreDeLaMadre
+    (3) nombreDelPadre -> . SPAN_INICIO ID_NOMBRE_DEL_PADRE SPAN_STYLE NOMBRE SPAN_CIERRE
+
+    SPAN_INICIO     shift and go to state 5
+
+    nombreDelPadre                 shift and go to state 4
+
+state 2
+
+    (2) nombre -> SPAN_INICIO . ID_NOMBRE_COMPLETO SPAN_STYLE NOMBRE SPAN_CIERRE
+
+    ID_NOMBRE_COMPLETO shift and go to state 6
+
+
+state 3
+
+    (0) S' -> elementos .
+
+
+
+state 4
+
+    (1) elementos -> nombre nombreDelPadre . nombreDeLaMadre
+    (4) nombreDeLaMadre -> . SPAN_INICIO ID_NOMBRE_DE_LA_MADRE SPAN_STYLE NOMBRE SPAN_CIERRE
+
+    SPAN_INICIO     shift and go to state 8
+
+    nombreDeLaMadre                shift and go to state 7
+
+state 5
+
+    (3) nombreDelPadre -> SPAN_INICIO . ID_NOMBRE_DEL_PADRE SPAN_STYLE NOMBRE SPAN_CIERRE
+
+    ID_NOMBRE_DEL_PADRE shift and go to state 9
+
+
+state 6
+
+    (2) nombre -> SPAN_INICIO ID_NOMBRE_COMPLETO . SPAN_STYLE NOMBRE SPAN_CIERRE
+
+    SPAN_STYLE      shift and go to state 10
+
+
+state 7
+
+    (1) elementos -> nombre nombreDelPadre nombreDeLaMadre .
+
+    $end            reduce using rule 1 (elementos -> nombre nombreDelPadre nombreDeLaMadre .)
+
+
+state 8
+
+    (4) nombreDeLaMadre -> SPAN_INICIO . ID_NOMBRE_DE_LA_MADRE SPAN_STYLE NOMBRE SPAN_CIERRE
+
+    ID_NOMBRE_DE_LA_MADRE shift and go to state 11
+
+
+state 9
+
+    (3) nombreDelPadre -> SPAN_INICIO ID_NOMBRE_DEL_PADRE . SPAN_STYLE NOMBRE SPAN_CIERRE
+
+    SPAN_STYLE      shift and go to state 12
+
+
+state 10
+
+    (2) nombre -> SPAN_INICIO ID_NOMBRE_COMPLETO SPAN_STYLE . NOMBRE SPAN_CIERRE
+
+    NOMBRE          shift and go to state 13
+
+
+state 11
+
+    (4) nombreDeLaMadre -> SPAN_INICIO ID_NOMBRE_DE_LA_MADRE . SPAN_STYLE NOMBRE SPAN_CIERRE
+
+    SPAN_STYLE      shift and go to state 14
+
+
+state 12
+
+    (3) nombreDelPadre -> SPAN_INICIO ID_NOMBRE_DEL_PADRE SPAN_STYLE . NOMBRE SPAN_CIERRE
+
+    NOMBRE          shift and go to state 15
+
+
+state 13
+
+    (2) nombre -> SPAN_INICIO ID_NOMBRE_COMPLETO SPAN_STYLE NOMBRE . SPAN_CIERRE
+
+    SPAN_CIERRE     shift and go to state 16
+
+
+state 14
+
+    (4) nombreDeLaMadre -> SPAN_INICIO ID_NOMBRE_DE_LA_MADRE SPAN_STYLE . NOMBRE SPAN_CIERRE
+
+    NOMBRE          shift and go to state 17
+
+
+state 15
+
+    (3) nombreDelPadre -> SPAN_INICIO ID_NOMBRE_DEL_PADRE SPAN_STYLE NOMBRE . SPAN_CIERRE
+
+    SPAN_CIERRE     shift and go to state 18
+
+
+state 16
+
+    (2) nombre -> SPAN_INICIO ID_NOMBRE_COMPLETO SPAN_STYLE NOMBRE SPAN_CIERRE .
+
+    SPAN_INICIO     reduce using rule 2 (nombre -> SPAN_INICIO ID_NOMBRE_COMPLETO SPAN_STYLE NOMBRE SPAN_CIERRE .)
+
+
+state 17
+
+    (4) nombreDeLaMadre -> SPAN_INICIO ID_NOMBRE_DE_LA_MADRE SPAN_STYLE NOMBRE . SPAN_CIERRE
+
+    SPAN_CIERRE     shift and go to state 19
+
+
+state 18
+
+    (3) nombreDelPadre -> SPAN_INICIO ID_NOMBRE_DEL_PADRE SPAN_STYLE NOMBRE SPAN_CIERRE .
+
+    SPAN_INICIO     reduce using rule 3 (nombreDelPadre -> SPAN_INICIO ID_NOMBRE_DEL_PADRE SPAN_STYLE NOMBRE SPAN_CIERRE .)
+
+
+state 19
+
+    (4) nombreDeLaMadre -> SPAN_INICIO ID_NOMBRE_DE_LA_MADRE SPAN_STYLE NOMBRE SPAN_CIERRE .
+
+    $end            reduce using rule 4 (nombreDeLaMadre -> SPAN_INICIO ID_NOMBRE_DE_LA_MADRE SPAN_STYLE NOMBRE SPAN_CIERRE .)
+

@@ -26,8 +26,8 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> elementos","S'",1,None,None,None),
-  ('elementos -> nombre nombreDelPadre nombreDeLaMadre','elementos',3,'p_elementos','tseParser.py',128),
-  ('nombre -> SPAN_INICIO ID_NOMBRE_COMPLETO SPAN_STYLE NOMBRE SPAN_CIERRE','nombre',5,'p_nombre','tseParser.py',132),
-  ('nombreDelPadre -> SPAN_INICIO ID_NOMBRE_DEL_PADRE SPAN_STYLE NOMBRE SPAN_CIERRE','nombreDelPadre',5,'p_nombreDelPadre','tseParser.py',138),
-  ('nombreDeLaMadre -> SPAN_INICIO ID_NOMBRE_DE_LA_MADRE SPAN_STYLE NOMBRE SPAN_CIERRE','nombreDeLaMadre',5,'p_nombreDeLaMadre','tseParser.py',144),
+  ('elementos -> nombre nombreDelPadre nombreDeLaMadre','elementos',3,'p_elementos','tseParser.py',125),
+  ('nombre -> SPAN_INICIO ID_NOMBRE_COMPLETO SPAN_STYLE NOMBRE SPAN_CIERRE','nombre',5,'p_nombre','tseParser.py',129),
+  ('nombreDelPadre -> SPAN_INICIO ID_NOMBRE_DEL_PADRE SPAN_STYLE NOMBRE SPAN_CIERRE','nombreDelPadre',5,'p_nombreDelPadre','tseParser.py',135),
+  ('nombreDeLaMadre -> SPAN_INICIO ID_NOMBRE_DE_LA_MADRE SPAN_STYLE NOMBRE SPAN_CIERRE','nombreDeLaMadre',5,'p_nombreDeLaMadre','tseParser.py',141),
 ]

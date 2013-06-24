@@ -1,4 +1,5 @@
 # --------------------------------------------------------------------------------------
+# -*- coding: UTF-8 -*-
 # ply: tseNameParser.py
 #
 # Nehemias Herrera | A52761 | Proyecto Automatas & Compiladores | I-2013 | Luis Quesada
@@ -7,6 +8,26 @@ import ply.lex as lex
 import ply.yacc as yacc
 import mechanize, re, sys
 
+
+# Calcula la distancia-levenshtein entre dos string y devuelve ese valor
+def levenshtein(s1, s2):
+    l1 = len(s1)
+    l2 = len(s2)
+    
+    matrix = [range(l1 + 1)] * (l2 + 1)
+    for zz in range(l2 + 1):
+      matrix[zz] = range(zz,zz + l1 + 1)
+    for zz in range(0,l2):
+      for sz in range(0,l1):
+        if s1[sz] == s2[zz]:
+          matrix[zz+1][sz+1] = min(matrix[zz+1][sz] + 1, matrix[zz][sz+1] + 1, matrix[zz][sz])
+        else:
+          matrix[zz+1][sz+1] = min(matrix[zz+1][sz] + 1, matrix[zz][sz+1] + 1, matrix[zz][sz] + 1)
+    #print "That's the Levenshtein-Matrix:"
+    #printMatrix(matrix)
+    return matrix[l2][l1]
+
+#Devuelve el codigo HTML de la pagina de resultado de realizar la consulta por nombre a la pagina del tse
 def obtenerCodigoHTMLparaBusquedaPorNombre(nombreCompleto):
     global nombre
     nombre = nombreCompleto
@@ -66,7 +87,14 @@ def obtenerCedula(nombre):
         'CEDULA',
         'NOMBRE',
         'PARTE_DERECHA_LABEL', 
+        'NOMBRE_NO_ENCONTRADO'
         )
+    
+    def t_NOMBRE_NO_ENCONTRADO(t):
+        r'1 de un total de 0'
+        print 'NOMBRE NO ENCONTRADO'
+        return t
+
     
     def t_PARTE_IZQUIERDA_LABEL(t):
         r'<label\ for=\"chk[0-9]_[0-9]+\">'
@@ -98,16 +126,24 @@ def obtenerCedula(nombre):
     
     #/////////////////////// YACC ///////////////////////
     # Parsing rules   
+    def p_buscar_nombres(p):
+         '''buscar_nombres : nombre_no_encontrado
+                           | nombres'''
+    
     def p_nombres(p):
         '''nombres : nombre nombres
                    | nombre'''
-        #print 'nombres'
     
     def p_nombre(p):
-        ' nombre : PARTE_IZQUIERDA_LABEL CEDULA NOMBRE PARTE_DERECHA_LABEL'
-        listaDeNombres[p[2]] = p[3] 
+        'nombre : PARTE_IZQUIERDA_LABEL CEDULA NOMBRE PARTE_DERECHA_LABEL'
+        listaDeNombres[p[2]] = p[3].strip() 
         #print p[2] + ' ' + p[3]
         
+    def p_nombre_no_encontrado(p):
+        'nombre_no_encontrado : NOMBRE_NO_ENCONTRADO'
+        listaDeNombres['0'] = 'NADIE' 
+        print p[2] + ' ' + p[3]
+        print 'NAN'
         
     def p_error(p):
         #print "Syntax error at token", p.type
@@ -127,26 +163,38 @@ def obtenerCedula(nombre):
     
     print 'Encontrados ' + str(len(listaDeNombres)) + ' posibles nombres'
     
+    distanciaLevenshtein = 100
+    bestMatchNombre = ''
+    bestMatchCedula = 0
     for cedula in listaDeNombres:
-        print  listaDeNombres[cedula] + ' cedula ' + cedula
+        #print  listaDeNombres[cedula] + ' cedula ' + cedula
+        distancia = levenshtein(nombre, listaDeNombres[cedula])
+        if (distancia < distanciaLevenshtein):
+            bestMatchNombre = listaDeNombres[cedula]
+            bestMatchCedula = cedula
+            distanciaLevenshtein = distancia
+        #print 'levenshtein de [',nombre, '] y [', listaDeNombres[cedula], '] es ', distancia
     
-    if len(listaDeNombres) == 1:
-        for cedula in listaDeNombres:
-            print 'La cedula de ' + listaDeNombres[cedula] + ' es ' + cedula
-            return cedula
-    else: 
-        palabrasDelNombre = nombre.split()
-        for cedula in listaDeNombres:
-            posibleMatch = True
-            for palabra in palabrasDelNombre:
-                if listaDeNombres[cedula].find(palabra) < 0:
-                    posibleMatch = False
-            if posibleMatch:
-                print 'La cedula de ' + listaDeNombres[cedula] + ' es ' + cedula
-                return cedula
+    print 'La mejor opcion es [' + bestMatchNombre + '] con la cedula [' + bestMatchCedula + '] y distancia levenshtein de ' + str(distanciaLevenshtein)
+    return bestMatchCedula
+    #if len(listaDeNombres) == 1:
+    #    for cedula in listaDeNombres:
+    #        print 'La cedula de ' + listaDeNombres[cedula] + ' es ' + cedula
+    #        return cedula
+    #else: 
+    #    palabrasDelNombre = nombre.split()
+    #    for cedula in listaDeNombres:
+    #        posibleMatch = True
+    #        for palabra in palabrasDelNombre:
+    #            if listaDeNombres[cedula].find(palabra) < 0:
+    #                posibleMatch = False
+    #        if posibleMatch:
+    #            print 'La cedula de ' + listaDeNombres[cedula] + ' es ' + cedula
+    #            return cedula
 
 #listaDeNombres = {'1':'1',}
 listaDeNombres = {}
+
 #print obtenerCedula('JOSE JOAQUIN HERRERA CASTRO')
 #print obtenerCedula('NEHEMIAS ESAU HERRERA SANCHO')
 #print obtenerCedula('ANA GABRIELA SANCHO FONSECA')

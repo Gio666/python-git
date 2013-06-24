@@ -52,7 +52,7 @@ def consultarPorCedula(cedula):
 
 def arbol(cedula):
 
-    nombreCompleto = nombreDeLaMadre = nombreDelPadre = ''
+    persona = Persona()
     
     #/////////////////////// LEX ///////////////////////
     tokens = ( 
@@ -129,7 +129,7 @@ def arbol(cedula):
         
     lex.lex()
 # //////////////////// FIN DE LEX ////////////////////
-    
+
 # /////////////////////// YACC ///////////////////////
     # reglas de parseo   
     def p_elementos(p):
@@ -138,20 +138,17 @@ def arbol(cedula):
     def p_nombre_completo(p):
         'nombre_completo : SPAN_INICIO ID_NOMBRE_COMPLETO SPAN_STYLE NOMBRE SPAN_CIERRE'
         print p[2] + ' : ' + p[4]
-        global nombreCompleto
-        nombreCompleto = p[4]
+        persona.nombre = p[4]
 
     def p_nombre_del_padre(p):
         'nombre_del_padre : SPAN_INICIO ID_NOMBRE_DEL_PADRE SPAN_STYLE NOMBRE SPAN_CIERRE'
         print p[2] + ' : ' + p[4]
-        global nombreDelPadre
-        nombreDelPadre = p[4]
+        persona.nombreDelPadre = p[4]
         
     def p_nombre_de_la_madre(p):
         'nombre_de_la_madre : SPAN_INICIO ID_NOMBRE_DE_LA_MADRE SPAN_STYLE NOMBRE SPAN_CIERRE'
         print p[2] + ' : ' + p[4]
-        global nombreDeLaMadre
-        nombreDeLaMadre = p[4]
+        persona.nombreDeLaMadre = p[4]
     
     def p_error(p):
         #print "Syntax error at token", p.type
@@ -161,12 +158,11 @@ def arbol(cedula):
     yacc.yacc()
 # //////////////////// FIN DE YACC ///////////////////
 
-# ////////////////////// MAIN? //////////////////////
+# /////////////////////// MAIN? ///////////////////////
 
 cedula = str(sys.argv[1])
 
-
-
+persona = Persona()
 
 for x in range(0, 2):
     

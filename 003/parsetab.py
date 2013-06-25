@@ -5,9 +5,9 @@ _tabversion = '3.2'
 
 _lr_method = 'LALR'
 
-_lr_signature = '\xd1\xbd\x88\xc6\x8e~\x13\xf9\xd3FN\xa4\xfa\xe3\x18\x94'
+_lr_signature = '\xc9\x87\xd0\x80i\xf7TB\xa6\xae\x0f\x1b\x1f\x05#\xad'
     
-_lr_action_items = {'SPAN_STYLE':([6,9,11,],[10,12,14,]),'ID_NOMBRE_DE_LA_MADRE':([8,],[11,]),'ID_NOMBRE_DEL_PADRE':([5,],[9,]),'SPAN_CIERRE':([13,15,17,],[16,18,19,]),'ID_NOMBRE_COMPLETO':([2,],[6,]),'NOMBRE':([10,12,14,],[13,15,17,]),'SPAN_INICIO':([0,1,4,16,18,],[2,5,8,-2,-3,]),'$end':([3,7,19,],[0,-1,-4,]),}
+_lr_action_items = {'PARTE_DERECHA_LABEL':([9,],[10,]),'NOMBRE_NO_ENCONTRADO':([0,],[1,]),'NOMBRE':([8,],[9,]),'PARTE_IZQUIERDA_LABEL':([0,5,10,],[6,6,-5,]),'CEDULA':([6,],[8,]),'$end':([1,2,3,4,5,7,10,],[-6,0,-2,-1,-4,-3,-5,]),}
 
 _lr_action = { }
 for _k, _v in _lr_action_items.items():
@@ -16,7 +16,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'nombreDelPadre':([1,],[4,]),'nombre':([0,],[1,]),'nombreDeLaMadre':([4,],[7,]),'elementos':([0,],[3,]),}
+_lr_goto_items = {'nombres':([0,5,],[3,7,]),'nombre_no_encontrado':([0,],[4,]),'buscar_nombres':([0,],[2,]),'nombre':([0,5,],[5,5,]),}
 
 _lr_goto = { }
 for _k, _v in _lr_goto_items.items():
@@ -25,9 +25,11 @@ for _k, _v in _lr_goto_items.items():
        _lr_goto[_x][_k] = _y
 del _lr_goto_items
 _lr_productions = [
-  ("S' -> elementos","S'",1,None,None,None),
-  ('elementos -> nombre nombreDelPadre nombreDeLaMadre','elementos',3,'p_elementos','tseParser.py',125),
-  ('nombre -> SPAN_INICIO ID_NOMBRE_COMPLETO SPAN_STYLE NOMBRE SPAN_CIERRE','nombre',5,'p_nombre','tseParser.py',129),
-  ('nombreDelPadre -> SPAN_INICIO ID_NOMBRE_DEL_PADRE SPAN_STYLE NOMBRE SPAN_CIERRE','nombreDelPadre',5,'p_nombreDelPadre','tseParser.py',135),
-  ('nombreDeLaMadre -> SPAN_INICIO ID_NOMBRE_DE_LA_MADRE SPAN_STYLE NOMBRE SPAN_CIERRE','nombreDeLaMadre',5,'p_nombreDeLaMadre','tseParser.py',141),
+  ("S' -> buscar_nombres","S'",1,None,None,None),
+  ('buscar_nombres -> nombre_no_encontrado','buscar_nombres',1,'p_buscar_nombres','/Users/yo/Desktop/python/003/tseNameParser.py',130),
+  ('buscar_nombres -> nombres','buscar_nombres',1,'p_buscar_nombres','/Users/yo/Desktop/python/003/tseNameParser.py',131),
+  ('nombres -> nombre nombres','nombres',2,'p_nombres','/Users/yo/Desktop/python/003/tseNameParser.py',134),
+  ('nombres -> nombre','nombres',1,'p_nombres','/Users/yo/Desktop/python/003/tseNameParser.py',135),
+  ('nombre -> PARTE_IZQUIERDA_LABEL CEDULA NOMBRE PARTE_DERECHA_LABEL','nombre',4,'p_nombre','/Users/yo/Desktop/python/003/tseNameParser.py',138),
+  ('nombre_no_encontrado -> NOMBRE_NO_ENCONTRADO','nombre_no_encontrado',1,'p_nombre_no_encontrado','/Users/yo/Desktop/python/003/tseNameParser.py',143),
 ]

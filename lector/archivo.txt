@@ -1,0 +1,5 @@
+S' -> S
+S -> A a | b
+A -> b B
+B -> c | EPS
+B -> d

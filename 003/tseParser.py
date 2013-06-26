@@ -1,7 +1,6 @@
 # ----------------------------------------------------------------------------------------------
 # -*- coding: UTF-8 -*-
 # ply: tseParser.py
-#
 # Nehemias Herrera | A52761 | Proyecto Automatas & Compiladores | I-2013 | Profesor Luis Quesada
 # ----------------------------------------------------------------------------------------------
 import ply.lex as lex

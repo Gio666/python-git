@@ -1,31 +1,27 @@
 Created by PLY version 3.4 (http://www.dabeaz.com/ply)
 
-Unused terminals:
-
-    O
-
 Grammar
 
 Rule 0     S' -> produccion
-Rule 1     produccion -> parte_izquierda espacios flecha espacios parte_derecha NUEVA_LINEA
+Rule 1     produccion -> parte_izquierda espacios flecha espacios parte_derecha
 Rule 2     parte_izquierda -> NO_TERMINAL
-Rule 3     espacios -> ESPACIO espacios
+Rule 3     espacios -> espacios ESPACIO
 Rule 4     espacios -> ESPACIO
 Rule 5     flecha -> FLECHA
 Rule 6     parte_derecha -> token
 Rule 7     parte_derecha -> token parte_derecha
 Rule 8     token -> TERMINAL
 Rule 9     token -> NO_TERMINAL
-Rule 10    token -> EPSILON
+Rule 10    token -> O
+Rule 11    token -> EPSILON
 
 Terminals, with rules where they appear
 
-EPSILON              : 10
+EPSILON              : 11
 ESPACIO              : 3 4
 FLECHA               : 5
 NO_TERMINAL          : 2 9
-NUEVA_LINEA          : 1
-O                    : 
+O                    : 10
 TERMINAL             : 8
 error                : 
 
@@ -43,20 +39,23 @@ Parsing method: LALR
 state 0
 
     (0) S' -> . produccion
-    (1) produccion -> . parte_izquierda espacios flecha espacios parte_derecha NUEVA_LINEA
+    (1) produccion -> . parte_izquierda espacios flecha espacios parte_derecha
     (2) parte_izquierda -> . NO_TERMINAL
 
-    NO_TERMINAL     shift and go to state 1
+    NO_TERMINAL     shift and go to state 3
 
     produccion                     shift and go to state 2
-    parte_izquierda                shift and go to state 3
+    parte_izquierda                shift and go to state 1
 
 state 1
 
-    (2) parte_izquierda -> NO_TERMINAL .
+    (1) produccion -> parte_izquierda . espacios flecha espacios parte_derecha
+    (3) espacios -> . espacios ESPACIO
+    (4) espacios -> . ESPACIO
 
-    ESPACIO         reduce using rule 2 (parte_izquierda -> NO_TERMINAL .)
+    ESPACIO         shift and go to state 4
 
+    espacios                       shift and go to state 5
 
 state 2
 
@@ -66,119 +65,113 @@ state 2
 
 state 3
 
-    (1) produccion -> parte_izquierda . espacios flecha espacios parte_derecha NUEVA_LINEA
-    (3) espacios -> . ESPACIO espacios
-    (4) espacios -> . ESPACIO
+    (2) parte_izquierda -> NO_TERMINAL .
 
-    ESPACIO         shift and go to state 4
+    ESPACIO         reduce using rule 2 (parte_izquierda -> NO_TERMINAL .)
 
-    espacios                       shift and go to state 5
 
 state 4
 
-    (3) espacios -> ESPACIO . espacios
     (4) espacios -> ESPACIO .
-    (3) espacios -> . ESPACIO espacios
-    (4) espacios -> . ESPACIO
 
+    ESPACIO         reduce using rule 4 (espacios -> ESPACIO .)
     FLECHA          reduce using rule 4 (espacios -> ESPACIO .)
     TERMINAL        reduce using rule 4 (espacios -> ESPACIO .)
     NO_TERMINAL     reduce using rule 4 (espacios -> ESPACIO .)
+    O               reduce using rule 4 (espacios -> ESPACIO .)
     EPSILON         reduce using rule 4 (espacios -> ESPACIO .)
-    ESPACIO         shift and go to state 4
 
-    espacios                       shift and go to state 6
 
 state 5
 
-    (1) produccion -> parte_izquierda espacios . flecha espacios parte_derecha NUEVA_LINEA
+    (1) produccion -> parte_izquierda espacios . flecha espacios parte_derecha
+    (3) espacios -> espacios . ESPACIO
     (5) flecha -> . FLECHA
 
-    FLECHA          shift and go to state 7
+    ESPACIO         shift and go to state 7
+    FLECHA          shift and go to state 8
 
-    flecha                         shift and go to state 8
+    flecha                         shift and go to state 6
 
 state 6
 
-    (3) espacios -> ESPACIO espacios .
-
-    FLECHA          reduce using rule 3 (espacios -> ESPACIO espacios .)
-    TERMINAL        reduce using rule 3 (espacios -> ESPACIO espacios .)
-    NO_TERMINAL     reduce using rule 3 (espacios -> ESPACIO espacios .)
-    EPSILON         reduce using rule 3 (espacios -> ESPACIO espacios .)
-
-
-state 7
-
-    (5) flecha -> FLECHA .
-
-    ESPACIO         reduce using rule 5 (flecha -> FLECHA .)
-
-
-state 8
-
-    (1) produccion -> parte_izquierda espacios flecha . espacios parte_derecha NUEVA_LINEA
-    (3) espacios -> . ESPACIO espacios
+    (1) produccion -> parte_izquierda espacios flecha . espacios parte_derecha
+    (3) espacios -> . espacios ESPACIO
     (4) espacios -> . ESPACIO
 
     ESPACIO         shift and go to state 4
 
     espacios                       shift and go to state 9
 
+state 7
+
+    (3) espacios -> espacios ESPACIO .
+
+    ESPACIO         reduce using rule 3 (espacios -> espacios ESPACIO .)
+    FLECHA          reduce using rule 3 (espacios -> espacios ESPACIO .)
+    TERMINAL        reduce using rule 3 (espacios -> espacios ESPACIO .)
+    NO_TERMINAL     reduce using rule 3 (espacios -> espacios ESPACIO .)
+    O               reduce using rule 3 (espacios -> espacios ESPACIO .)
+    EPSILON         reduce using rule 3 (espacios -> espacios ESPACIO .)
+
+
+state 8
+
+    (5) flecha -> FLECHA .
+
+    ESPACIO         reduce using rule 5 (flecha -> FLECHA .)
+
+
 state 9
 
-    (1) produccion -> parte_izquierda espacios flecha espacios . parte_derecha NUEVA_LINEA
+    (1) produccion -> parte_izquierda espacios flecha espacios . parte_derecha
+    (3) espacios -> espacios . ESPACIO
     (6) parte_derecha -> . token
     (7) parte_derecha -> . token parte_derecha
     (8) token -> . TERMINAL
     (9) token -> . NO_TERMINAL
-    (10) token -> . EPSILON
+    (10) token -> . O
+    (11) token -> . EPSILON
 
-    TERMINAL        shift and go to state 13
-    NO_TERMINAL     shift and go to state 11
-    EPSILON         shift and go to state 12
+    ESPACIO         shift and go to state 7
+    TERMINAL        shift and go to state 15
+    NO_TERMINAL     shift and go to state 12
+    O               shift and go to state 14
+    EPSILON         shift and go to state 11
 
     parte_derecha                  shift and go to state 10
-    token                          shift and go to state 14
+    token                          shift and go to state 13
 
 state 10
 
-    (1) produccion -> parte_izquierda espacios flecha espacios parte_derecha . NUEVA_LINEA
+    (1) produccion -> parte_izquierda espacios flecha espacios parte_derecha .
 
-    NUEVA_LINEA     shift and go to state 15
+    $end            reduce using rule 1 (produccion -> parte_izquierda espacios flecha espacios parte_derecha .)
 
 
 state 11
+
+    (11) token -> EPSILON .
+
+    TERMINAL        reduce using rule 11 (token -> EPSILON .)
+    NO_TERMINAL     reduce using rule 11 (token -> EPSILON .)
+    O               reduce using rule 11 (token -> EPSILON .)
+    EPSILON         reduce using rule 11 (token -> EPSILON .)
+    $end            reduce using rule 11 (token -> EPSILON .)
+
+
+state 12
 
     (9) token -> NO_TERMINAL .
 
     TERMINAL        reduce using rule 9 (token -> NO_TERMINAL .)
     NO_TERMINAL     reduce using rule 9 (token -> NO_TERMINAL .)
+    O               reduce using rule 9 (token -> NO_TERMINAL .)
     EPSILON         reduce using rule 9 (token -> NO_TERMINAL .)
-    NUEVA_LINEA     reduce using rule 9 (token -> NO_TERMINAL .)
-
-
-state 12
-
-    (10) token -> EPSILON .
-
-    TERMINAL        reduce using rule 10 (token -> EPSILON .)
-    NO_TERMINAL     reduce using rule 10 (token -> EPSILON .)
-    EPSILON         reduce using rule 10 (token -> EPSILON .)
-    NUEVA_LINEA     reduce using rule 10 (token -> EPSILON .)
+    $end            reduce using rule 9 (token -> NO_TERMINAL .)
 
 
 state 13
-
-    (8) token -> TERMINAL .
-
-    TERMINAL        reduce using rule 8 (token -> TERMINAL .)
-    NO_TERMINAL     reduce using rule 8 (token -> TERMINAL .)
-    EPSILON         reduce using rule 8 (token -> TERMINAL .)
-    NUEVA_LINEA     reduce using rule 8 (token -> TERMINAL .)
-
-
-state 14
 
     (6) parte_derecha -> token .
     (7) parte_derecha -> token . parte_derecha
@@ -186,26 +179,43 @@ state 14
     (7) parte_derecha -> . token parte_derecha
     (8) token -> . TERMINAL
     (9) token -> . NO_TERMINAL
-    (10) token -> . EPSILON
+    (10) token -> . O
+    (11) token -> . EPSILON
 
-    NUEVA_LINEA     reduce using rule 6 (parte_derecha -> token .)
-    TERMINAL        shift and go to state 13
-    NO_TERMINAL     shift and go to state 11
-    EPSILON         shift and go to state 12
+    $end            reduce using rule 6 (parte_derecha -> token .)
+    TERMINAL        shift and go to state 15
+    NO_TERMINAL     shift and go to state 12
+    O               shift and go to state 14
+    EPSILON         shift and go to state 11
 
     parte_derecha                  shift and go to state 16
-    token                          shift and go to state 14
+    token                          shift and go to state 13
+
+state 14
+
+    (10) token -> O .
+
+    TERMINAL        reduce using rule 10 (token -> O .)
+    NO_TERMINAL     reduce using rule 10 (token -> O .)
+    O               reduce using rule 10 (token -> O .)
+    EPSILON         reduce using rule 10 (token -> O .)
+    $end            reduce using rule 10 (token -> O .)
+
 
 state 15
 
-    (1) produccion -> parte_izquierda espacios flecha espacios parte_derecha NUEVA_LINEA .
+    (8) token -> TERMINAL .
 
-    $end            reduce using rule 1 (produccion -> parte_izquierda espacios flecha espacios parte_derecha NUEVA_LINEA .)
+    TERMINAL        reduce using rule 8 (token -> TERMINAL .)
+    NO_TERMINAL     reduce using rule 8 (token -> TERMINAL .)
+    O               reduce using rule 8 (token -> TERMINAL .)
+    EPSILON         reduce using rule 8 (token -> TERMINAL .)
+    $end            reduce using rule 8 (token -> TERMINAL .)
 
 
 state 16
 
     (7) parte_derecha -> token parte_derecha .
 
-    NUEVA_LINEA     reduce using rule 7 (parte_derecha -> token parte_derecha .)
+    $end            reduce using rule 7 (parte_derecha -> token parte_derecha .)
 

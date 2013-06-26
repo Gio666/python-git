@@ -5,9 +5,9 @@ _tabversion = '3.2'
 
 _lr_method = 'LALR'
 
-_lr_signature = '\xf3\xc8\xd2\x91T\xeeb\x7f\xd5)Y1\xfb\xac\xe5\xc8'
+_lr_signature = b'\x0f\xcf\xf3\x079\xaa\xeb\xfa\xd7\xa8\xe8\xa6-d\x11a'
     
-_lr_action_items = {'NUEVA_LINEA':([10,11,12,13,14,16,],[15,-9,-10,-8,-6,-7,]),'NO_TERMINAL':([0,4,6,9,11,12,13,14,],[1,-4,-3,11,-9,-10,-8,11,]),'ESPACIO':([1,3,4,7,8,],[-2,4,4,-5,4,]),'EPSILON':([4,6,9,11,12,13,14,],[-4,-3,12,-9,-10,-8,12,]),'TERMINAL':([4,6,9,11,12,13,14,],[-4,-3,13,-9,-10,-8,13,]),'FLECHA':([4,5,6,],[-4,7,-3,]),'$end':([2,15,],[0,-1,]),}
+_lr_action_items = {'EPSILON':([4,7,9,11,12,13,14,15,],[-4,-3,11,-11,-9,11,-10,-8,]),'TERMINAL':([4,7,9,11,12,13,14,15,],[-4,-3,15,-11,-9,15,-10,-8,]),'NO_TERMINAL':([0,4,7,9,11,12,13,14,15,],[3,-4,-3,12,-11,-9,12,-10,-8,]),'O':([4,7,9,11,12,13,14,15,],[-4,-3,14,-11,-9,14,-10,-8,]),'ESPACIO':([1,3,4,5,6,7,8,9,],[4,-2,-4,7,4,-3,-5,7,]),'FLECHA':([4,5,7,],[-4,8,-3,]),'$end':([2,10,11,12,13,14,15,16,],[0,-1,-11,-9,-6,-10,-8,-7,]),}
 
 _lr_action = { }
 for _k, _v in _lr_action_items.items():
@@ -16,7 +16,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'parte_derecha':([9,14,],[10,16,]),'token':([9,14,],[14,14,]),'flecha':([5,],[8,]),'produccion':([0,],[2,]),'parte_izquierda':([0,],[3,]),'espacios':([3,4,8,],[5,6,9,]),}
+_lr_goto_items = {'parte_derecha':([9,13,],[10,16,]),'parte_izquierda':([0,],[1,]),'flecha':([5,],[6,]),'espacios':([1,6,],[5,9,]),'produccion':([0,],[2,]),'token':([9,13,],[13,13,]),}
 
 _lr_goto = { }
 for _k, _v in _lr_goto_items.items():
@@ -26,14 +26,15 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> produccion","S'",1,None,None,None),
-  ('produccion -> parte_izquierda espacios flecha espacios parte_derecha NUEVA_LINEA','produccion',6,'p_produccion','lector.py',94),
-  ('parte_izquierda -> NO_TERMINAL','parte_izquierda',1,'p_parte_izquierda','lector.py',99),
-  ('espacios -> ESPACIO espacios','espacios',2,'p_espacios','lector.py',105),
-  ('espacios -> ESPACIO','espacios',1,'p_espacios','lector.py',106),
-  ('flecha -> FLECHA','flecha',1,'p_flecha','lector.py',111),
-  ('parte_derecha -> token','parte_derecha',1,'p_parte_derecha','lector.py',117),
-  ('parte_derecha -> token parte_derecha','parte_derecha',2,'p_parte_derecha','lector.py',118),
-  ('token -> TERMINAL','token',1,'p_token','lector.py',123),
-  ('token -> NO_TERMINAL','token',1,'p_token','lector.py',124),
-  ('token -> EPSILON','token',1,'p_token','lector.py',125),
+  ('produccion -> parte_izquierda espacios flecha espacios parte_derecha','produccion',5,'p_produccion','lector.py',59),
+  ('parte_izquierda -> NO_TERMINAL','parte_izquierda',1,'p_parte_izquierda','lector.py',64),
+  ('espacios -> espacios ESPACIO','espacios',2,'p_espacios','lector.py',69),
+  ('espacios -> ESPACIO','espacios',1,'p_espacios','lector.py',70),
+  ('flecha -> FLECHA','flecha',1,'p_flecha','lector.py',73),
+  ('parte_derecha -> token','parte_derecha',1,'p_parte_derecha','lector.py',77),
+  ('parte_derecha -> token parte_derecha','parte_derecha',2,'p_parte_derecha','lector.py',78),
+  ('token -> TERMINAL','token',1,'p_token','lector.py',81),
+  ('token -> NO_TERMINAL','token',1,'p_token','lector.py',82),
+  ('token -> O','token',1,'p_token','lector.py',83),
+  ('token -> EPSILON','token',1,'p_token','lector.py',84),
 ]

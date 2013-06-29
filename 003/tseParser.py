@@ -70,13 +70,13 @@ def obtenerNombre(cedula):
     
     #t_CEDULA = r'[0-9]{9}'
     def t_CEDULA(t):
-        r'[0-9]{9}'
+        r'[0-9]{9}|>0<'
         #print 'cedula ' + t.value
         return t
         
     #t_NOMBRE = r'[A-Z ]+'
     def t_NOMBRE(t):
-        r'[A-Z]+ [A-Z]+ [A-Z ]+'
+        r'[A-ZÑ]+ [A-ZÑ]+ [A-ZÑ ]+'
         #print 'nombre ' + t.value
         return t
     
@@ -120,27 +120,64 @@ def obtenerNombre(cedula):
     
     #/////////////////////// YACC ///////////////////////
     # Parsing rules   
-    def p_elementos(p):
-        #'elementos : cedula nombre sexo'
-        'elementos : nombre nombreDelPadre nombreDeLaMadre '
     
-    def p_nombre(p):
-        'nombre : SPAN_INICIO ID_NOMBRE_COMPLETO SPAN_STYLE NOMBRE SPAN_CIERRE'
-        print p[2] + ' : ' + p[4]
-        global nombre
-        nombre = p[4]
-        
-    def p_nombreDelPadre(p):
-        'nombreDelPadre : SPAN_INICIO ID_NOMBRE_DEL_PADRE SPAN_STYLE NOMBRE SPAN_CIERRE'
-        print p[2] + ' : ' + p[4]
-        global papa
-        papa = p[4]
-        
-    def p_nombreDeLaMadre(p):
-        'nombreDeLaMadre : SPAN_INICIO ID_NOMBRE_DE_LA_MADRE SPAN_STYLE NOMBRE SPAN_CIERRE'
-        print p[2] + ' : ' + p[4]
-        global mama
-        mama = p[4]
+    def p_datos(p):
+        'datos : datos_de_la_persona datos_del_padre datos_de_la_madre'
+    
+    def p_datos_de_la_persona(p):
+        '''datos_de_la_persona : cedula_de_la_persona nombre_de_la_persona 
+                               | cedula_de_la_persona
+                               | nombre_de_la_persona'''
+    
+    def p_cedula_de_la_persona(p):
+        'cedula_de_la_persona : SPAN_INICIO ID_CEDULA SPAN_STYLE CEDULA SPAN_CIERRE'
+        global cedula_de_la_persona
+        cedula_de_la_persona = p[4]
+        print p[2] + ' : ' + cedula_de_la_persona
+    
+    def p_nombre_de_la_persona(p):
+        'nombre_de_la_persona : SPAN_INICIO ID_NOMBRE_COMPLETO SPAN_STYLE NOMBRE SPAN_CIERRE'
+        global nombre_de_la_persona
+        nombre_de_la_persona = p[4]
+        print p[2] + ' : ' + nombre_de_la_persona
+    
+    def p_datos_del_padre(p):
+        '''datos_del_padre : nombre_del_padre cedula_del_padre  
+                           | nombre_del_padre
+                           | cedula_del_padre'''
+    
+    def p_nombre_del_padre(p):
+        'nombre_del_padre : SPAN_INICIO ID_NOMBRE_DEL_PADRE SPAN_STYLE NOMBRE SPAN_CIERRE'
+        global nombre_del_padre
+        nombre_del_padre = p[4]
+        print p[2] + ' : ' + nombre_del_padre
+    
+    def p_cedula_del_padre(p):
+        'cedula_del_padre : SPAN_INICIO ID_IDENTIFICACION_DEL_PADRE SPAN_STYLE CEDULA SPAN_CIERRE'
+        global cedula_del_padre
+        cedula_del_padre = p[4]
+        if (cedula_del_padre == '>0<'):
+            cedula_del_padre = '0'
+        print p[2] + ' : ' + cedula_del_padre
+    
+    def p_datos_de_la_madre(p):
+        '''datos_de_la_madre : nombre_de_la_madre 
+                             | cedula_de_la_madre  
+                             | nombre_de_la_madre cedula_de_la_madre'''
+    
+    def p_nombre_de_la_madre(p):
+        'nombre_de_la_madre : SPAN_INICIO ID_NOMBRE_DE_LA_MADRE SPAN_STYLE NOMBRE SPAN_CIERRE'
+        global nombre_de_la_madre
+        nombre_de_la_madre = p[4]
+        print p[2] + ' : ' + nombre_de_la_madre
+    
+    def p_cedula_de_la_madre(p):
+        'cedula_de_la_madre : SPAN_INICIO ID_IDENTIFICACION_DE_LA_MADRE SPAN_STYLE CEDULA SPAN_CIERRE'
+        global cedula_de_la_madre
+        cedula_de_la_madre = p[4]
+        if (cedula_de_la_madre == '>0<'):
+            cedula_de_la_madre = '0'
+        print p[2] + ' : ' + cedula_de_la_madre
     
     def p_error(p):
         #print "Syntax error at token", p.type
@@ -155,8 +192,13 @@ def obtenerNombre(cedula):
     # lo paseamos para obtener los datos que queremos
     yacc.parse(codigo)
     #regresamos con el mandado return
-    return Persona(nombre_completo = nombre, numero_de_cedula = cedula, nombre_del_padre = papa, nombre_de_la_madre = mama)
     
+    return Persona(nombre_completo = nombre_de_la_persona, 
+                   numero_de_cedula = cedula_de_la_persona,  
+                   nombre_del_padre = nombre_del_padre,
+                   numero_de_cedula_del_padre = cedula_del_padre,
+                   nombre_de_la_madre  = nombre_de_la_madre,
+                   numero_de_cedula_de_la_madre = cedula_de_la_madre )
 # Esta funcion dibuja el arbol genealogico en un archivo de imagen
 def dibuje(arbol):
     import pygraphviz as pgv
@@ -219,13 +261,37 @@ def hacerArbol(lista):
 # ////////////////////////////////  MAIN  ////////////////////////////////
 # ////////////////////////////////////////////////////////////////////////
 from collections import namedtuple
-Persona = namedtuple("Persona", "nombre_completo numero_de_cedula nombre_del_padre nombre_de_la_madre")
+Persona = namedtuple("Persona", "nombre_completo numero_de_cedula nombre_del_padre numero_de_cedula_del_padre nombre_de_la_madre numero_de_cedula_de_la_madre")
 
 # recibimos la cedula como parametro
 cedula = str(sys.argv[1])
 
 # datos de la persona consultada
 persona = obtenerNombre(cedula)
+print persona
+if (persona.numero_de_cedula_del_padre == '0'):
+    global cedulaPadre
+    cedulaPadre = tseNameParser.obtenerCedula(persona.nombre_del_padre)
+    persona = Persona(nombre_completo = persona.nombre_completo, 
+                      numero_de_cedula = persona.numero_de_cedula,  
+                      nombre_del_padre = persona.nombre_del_padre,
+                      numero_de_cedula_del_padre = cedulaPadre,
+                      nombre_de_la_madre  = persona.nombre_de_la_madre,
+                      numero_de_cedula_de_la_madre = persona.numero_de_cedula_de_la_madre )
+
+if (persona.numero_de_cedula_de_la_madre == '0'):
+    global cedulaMadre
+    cedulaMadre = tseNameParser.obtenerCedula(persona.nombre_de_la_madre)
+    persona = Persona(nombre_completo = persona.nombre_completo, 
+                      numero_de_cedula = persona.numero_de_cedula,  
+                      nombre_del_padre = persona.nombre_del_padre,
+                      numero_de_cedula_del_padre = persona.numero_de_cedula_del_padre,
+                      nombre_de_la_madre  = persona.nombre_de_la_madre,
+                      numero_de_cedula_de_la_madre = cedulaMadre )
+
+print persona
+
+
 
 # datos de la mama de la persona consultada
 cedula = tseNameParser.obtenerCedula(persona.nombre_de_la_madre)

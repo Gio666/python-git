@@ -1,0 +1,91 @@
+Created by PLY version 3.4 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> nombres
+Rule 1     nombres -> nombre nombres
+Rule 2     nombres -> nombre
+Rule 3     nombre -> PARTE_IZQUIERDA_LABEL CEDULA NOMBRE PARTE_DERECHA_LABEL
+
+Terminals, with rules where they appear
+
+CEDULA               : 3
+NOMBRE               : 3
+PARTE_DERECHA_LABEL  : 3
+PARTE_IZQUIERDA_LABEL : 3
+error                : 
+
+Nonterminals, with rules where they appear
+
+nombre               : 1 2
+nombres              : 1 0
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . nombres
+    (1) nombres -> . nombre nombres
+    (2) nombres -> . nombre
+    (3) nombre -> . PARTE_IZQUIERDA_LABEL CEDULA NOMBRE PARTE_DERECHA_LABEL
+
+    PARTE_IZQUIERDA_LABEL shift and go to state 3
+
+    nombres                        shift and go to state 1
+    nombre                         shift and go to state 2
+
+state 1
+
+    (0) S' -> nombres .
+
+
+
+state 2
+
+    (1) nombres -> nombre . nombres
+    (2) nombres -> nombre .
+    (1) nombres -> . nombre nombres
+    (2) nombres -> . nombre
+    (3) nombre -> . PARTE_IZQUIERDA_LABEL CEDULA NOMBRE PARTE_DERECHA_LABEL
+
+    $end            reduce using rule 2 (nombres -> nombre .)
+    PARTE_IZQUIERDA_LABEL shift and go to state 3
+
+    nombre                         shift and go to state 2
+    nombres                        shift and go to state 4
+
+state 3
+
+    (3) nombre -> PARTE_IZQUIERDA_LABEL . CEDULA NOMBRE PARTE_DERECHA_LABEL
+
+    CEDULA          shift and go to state 5
+
+
+state 4
+
+    (1) nombres -> nombre nombres .
+
+    $end            reduce using rule 1 (nombres -> nombre nombres .)
+
+
+state 5
+
+    (3) nombre -> PARTE_IZQUIERDA_LABEL CEDULA . NOMBRE PARTE_DERECHA_LABEL
+
+    NOMBRE          shift and go to state 6
+
+
+state 6
+
+    (3) nombre -> PARTE_IZQUIERDA_LABEL CEDULA NOMBRE . PARTE_DERECHA_LABEL
+
+    PARTE_DERECHA_LABEL shift and go to state 7
+
+
+state 7
+
+    (3) nombre -> PARTE_IZQUIERDA_LABEL CEDULA NOMBRE PARTE_DERECHA_LABEL .
+
+    PARTE_IZQUIERDA_LABEL reduce using rule 3 (nombre -> PARTE_IZQUIERDA_LABEL CEDULA NOMBRE PARTE_DERECHA_LABEL .)
+    $end            reduce using rule 3 (nombre -> PARTE_IZQUIERDA_LABEL CEDULA NOMBRE PARTE_DERECHA_LABEL .)
+

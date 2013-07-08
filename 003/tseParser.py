@@ -200,6 +200,7 @@ def obtenerNombre(cedula):
                    nombre_de_la_madre  = nombre_de_la_madre,
                    numero_de_cedula_de_la_madre = cedula_de_la_madre )
 # Esta funcion dibuja el arbol genealogico en un archivo de imagen
+
 def dibuje(arbol):
     import pygraphviz as pgv
     #print A.string() # print to screen

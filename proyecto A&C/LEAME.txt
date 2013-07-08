@@ -1,0 +1,37 @@
+# --------------------------------------------------------------------------------------
+# -*- coding: UTF-8 -*-
+# File: LEAME.TXT
+#
+# Nehemias Herrera | A52761 | Proyecto Automatas & Compiladores | I-2013 | Luis Quesada
+# --------------------------------------------------------------------------------------
+
+Para utilizar el programa son necesarios los siguientes paquetes de software
+
+1) Python 2.7            - lenguaje de programacion            - http://www.python.org/download/releases/2.7/
+2) PLY (Python Lex-Yacc) - herramientas de parseo LEX y YACC   - http://www.dabeaz.com/ply/
+3) mechanize             - navegador web para python           - http://wwwsearch.sourceforge.net/mechanize/download.html
+4) Graphviz              - software de visualizacion de grafos - http://www.graphviz.org/Download.php
+5) PyGraphviz            - interfaz de Graphviz para python    - http://networkx.lanl.gov/pygraphviz/download.html
+
+opcional:
+6) PIL - necesario solo para abrir la imagen automaticamente despues de ser creada - http://www.pythonware.com/products/pil/
+
+Luego de haber instalado los paquetes antes mencionados, ejecute el programa por medio de la linea de comandos de la siguiente manera:
+    
+    python arbol.py cedula
+    
+    siendo [cedula] el numero de cedula de algun ciudadano costarricense
+    
+ejemplos:
+
+    python arbol.py 112120468
+    python arbol.py 114880598
+    
+el programa correra consultando la pagina de consulta de personas del tse y parseando el
+resultado de las mismas empezando con la persona correspondiente al numero de cedula provisto y
+terminando hasta no encontrar mas informacion sobre sus ancestros.
+
+Al finalizar, el programa habrá creado la imagen ancestros.png con el resultado
+
+Como ejemplo se agregaron los archivos 112120468.png y 208910519.png resultado de
+ejecutar el programa con los numeros de cedula del ejemplo 

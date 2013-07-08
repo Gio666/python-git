@@ -1,124 +1,429 @@
 Created by PLY version 3.4 (http://www.dabeaz.com/ply)
 
+Unused terminals:
+
+    ID_NACIONALIDAD
+    ID_EDAD
+    ID_SEXO
+    ID_FECHA_DE_NACIMIENTO
+    SEXO
+    ID_CONOCIDO_COMO
+    FECHA
+
 Grammar
 
-Rule 0     S' -> buscar_nombres
-Rule 1     buscar_nombres -> nombre_no_encontrado
-Rule 2     buscar_nombres -> nombres
-Rule 3     nombres -> nombre nombres
-Rule 4     nombres -> nombre
-Rule 5     nombre -> PARTE_IZQUIERDA_LABEL CEDULA NOMBRE PARTE_DERECHA_LABEL
-Rule 6     nombre_no_encontrado -> NOMBRE_NO_ENCONTRADO
+Rule 0     S' -> datos
+Rule 1     datos -> datos_de_la_persona datos_del_padre datos_de_la_madre
+Rule 2     datos_de_la_persona -> cedula_de_la_persona nombre_de_la_persona
+Rule 3     datos_de_la_persona -> cedula_de_la_persona
+Rule 4     datos_de_la_persona -> nombre_de_la_persona
+Rule 5     cedula_de_la_persona -> SPAN_INICIO ID_CEDULA SPAN_STYLE CEDULA SPAN_CIERRE
+Rule 6     nombre_de_la_persona -> SPAN_INICIO ID_NOMBRE_COMPLETO SPAN_STYLE NOMBRE SPAN_CIERRE
+Rule 7     datos_del_padre -> nombre_del_padre cedula_del_padre
+Rule 8     datos_del_padre -> nombre_del_padre
+Rule 9     datos_del_padre -> cedula_del_padre
+Rule 10    nombre_del_padre -> SPAN_INICIO ID_NOMBRE_DEL_PADRE SPAN_STYLE NOMBRE SPAN_CIERRE
+Rule 11    cedula_del_padre -> SPAN_INICIO ID_IDENTIFICACION_DEL_PADRE SPAN_STYLE CEDULA SPAN_CIERRE
+Rule 12    datos_de_la_madre -> nombre_de_la_madre
+Rule 13    datos_de_la_madre -> cedula_de_la_madre
+Rule 14    datos_de_la_madre -> nombre_de_la_madre cedula_de_la_madre
+Rule 15    nombre_de_la_madre -> SPAN_INICIO ID_NOMBRE_DE_LA_MADRE SPAN_STYLE NOMBRE SPAN_CIERRE
+Rule 16    cedula_de_la_madre -> SPAN_INICIO ID_IDENTIFICACION_DE_LA_MADRE SPAN_STYLE CEDULA SPAN_CIERRE
 
 Terminals, with rules where they appear
 
-CEDULA               : 5
-NOMBRE               : 5
-NOMBRE_NO_ENCONTRADO : 6
-PARTE_DERECHA_LABEL  : 5
-PARTE_IZQUIERDA_LABEL : 5
+CEDULA               : 5 11 16
+FECHA                : 
+ID_CEDULA            : 5
+ID_CONOCIDO_COMO     : 
+ID_EDAD              : 
+ID_FECHA_DE_NACIMIENTO : 
+ID_IDENTIFICACION_DEL_PADRE : 11
+ID_IDENTIFICACION_DE_LA_MADRE : 16
+ID_NACIONALIDAD      : 
+ID_NOMBRE_COMPLETO   : 6
+ID_NOMBRE_DEL_PADRE  : 10
+ID_NOMBRE_DE_LA_MADRE : 15
+ID_SEXO              : 
+NOMBRE               : 6 10 15
+SEXO                 : 
+SPAN_CIERRE          : 5 6 10 11 15 16
+SPAN_INICIO          : 5 6 10 11 15 16
+SPAN_STYLE           : 5 6 10 11 15 16
 error                : 
 
 Nonterminals, with rules where they appear
 
-buscar_nombres       : 0
-nombre               : 3 4
-nombre_no_encontrado : 1
-nombres              : 2 3
+cedula_de_la_madre   : 13 14
+cedula_de_la_persona : 2 3
+cedula_del_padre     : 7 9
+datos                : 0
+datos_de_la_madre    : 1
+datos_de_la_persona  : 1
+datos_del_padre      : 1
+nombre_de_la_madre   : 12 14
+nombre_de_la_persona : 2 4
+nombre_del_padre     : 7 8
 
 Parsing method: LALR
 
 state 0
 
-    (0) S' -> . buscar_nombres
-    (1) buscar_nombres -> . nombre_no_encontrado
-    (2) buscar_nombres -> . nombres
-    (6) nombre_no_encontrado -> . NOMBRE_NO_ENCONTRADO
-    (3) nombres -> . nombre nombres
-    (4) nombres -> . nombre
-    (5) nombre -> . PARTE_IZQUIERDA_LABEL CEDULA NOMBRE PARTE_DERECHA_LABEL
+    (0) S' -> . datos
+    (1) datos -> . datos_de_la_persona datos_del_padre datos_de_la_madre
+    (2) datos_de_la_persona -> . cedula_de_la_persona nombre_de_la_persona
+    (3) datos_de_la_persona -> . cedula_de_la_persona
+    (4) datos_de_la_persona -> . nombre_de_la_persona
+    (5) cedula_de_la_persona -> . SPAN_INICIO ID_CEDULA SPAN_STYLE CEDULA SPAN_CIERRE
+    (6) nombre_de_la_persona -> . SPAN_INICIO ID_NOMBRE_COMPLETO SPAN_STYLE NOMBRE SPAN_CIERRE
 
-    NOMBRE_NO_ENCONTRADO shift and go to state 1
-    PARTE_IZQUIERDA_LABEL shift and go to state 6
+    SPAN_INICIO     shift and go to state 5
 
-    nombres                        shift and go to state 3
-    nombre_no_encontrado           shift and go to state 4
-    buscar_nombres                 shift and go to state 2
-    nombre                         shift and go to state 5
+    cedula_de_la_persona           shift and go to state 1
+    nombre_de_la_persona           shift and go to state 2
+    datos                          shift and go to state 3
+    datos_de_la_persona            shift and go to state 4
 
 state 1
 
-    (6) nombre_no_encontrado -> NOMBRE_NO_ENCONTRADO .
+    (2) datos_de_la_persona -> cedula_de_la_persona . nombre_de_la_persona
+    (3) datos_de_la_persona -> cedula_de_la_persona .
+    (6) nombre_de_la_persona -> . SPAN_INICIO ID_NOMBRE_COMPLETO SPAN_STYLE NOMBRE SPAN_CIERRE
 
-    $end            reduce using rule 6 (nombre_no_encontrado -> NOMBRE_NO_ENCONTRADO .)
+  ! shift/reduce conflict for SPAN_INICIO resolved as shift
+    SPAN_INICIO     shift and go to state 7
 
+  ! SPAN_INICIO     [ reduce using rule 3 (datos_de_la_persona -> cedula_de_la_persona .) ]
+
+    nombre_de_la_persona           shift and go to state 6
 
 state 2
 
-    (0) S' -> buscar_nombres .
+    (4) datos_de_la_persona -> nombre_de_la_persona .
 
+    SPAN_INICIO     reduce using rule 4 (datos_de_la_persona -> nombre_de_la_persona .)
 
 
 state 3
 
-    (2) buscar_nombres -> nombres .
+    (0) S' -> datos .
 
-    $end            reduce using rule 2 (buscar_nombres -> nombres .)
 
 
 state 4
 
-    (1) buscar_nombres -> nombre_no_encontrado .
+    (1) datos -> datos_de_la_persona . datos_del_padre datos_de_la_madre
+    (7) datos_del_padre -> . nombre_del_padre cedula_del_padre
+    (8) datos_del_padre -> . nombre_del_padre
+    (9) datos_del_padre -> . cedula_del_padre
+    (10) nombre_del_padre -> . SPAN_INICIO ID_NOMBRE_DEL_PADRE SPAN_STYLE NOMBRE SPAN_CIERRE
+    (11) cedula_del_padre -> . SPAN_INICIO ID_IDENTIFICACION_DEL_PADRE SPAN_STYLE CEDULA SPAN_CIERRE
 
-    $end            reduce using rule 1 (buscar_nombres -> nombre_no_encontrado .)
+    SPAN_INICIO     shift and go to state 11
 
+    nombre_del_padre               shift and go to state 8
+    datos_del_padre                shift and go to state 10
+    cedula_del_padre               shift and go to state 9
 
 state 5
 
-    (3) nombres -> nombre . nombres
-    (4) nombres -> nombre .
-    (3) nombres -> . nombre nombres
-    (4) nombres -> . nombre
-    (5) nombre -> . PARTE_IZQUIERDA_LABEL CEDULA NOMBRE PARTE_DERECHA_LABEL
+    (5) cedula_de_la_persona -> SPAN_INICIO . ID_CEDULA SPAN_STYLE CEDULA SPAN_CIERRE
+    (6) nombre_de_la_persona -> SPAN_INICIO . ID_NOMBRE_COMPLETO SPAN_STYLE NOMBRE SPAN_CIERRE
 
-    $end            reduce using rule 4 (nombres -> nombre .)
-    PARTE_IZQUIERDA_LABEL shift and go to state 6
+    ID_CEDULA       shift and go to state 13
+    ID_NOMBRE_COMPLETO shift and go to state 12
 
-    nombre                         shift and go to state 5
-    nombres                        shift and go to state 7
 
 state 6
 
-    (5) nombre -> PARTE_IZQUIERDA_LABEL . CEDULA NOMBRE PARTE_DERECHA_LABEL
+    (2) datos_de_la_persona -> cedula_de_la_persona nombre_de_la_persona .
 
-    CEDULA          shift and go to state 8
+    SPAN_INICIO     reduce using rule 2 (datos_de_la_persona -> cedula_de_la_persona nombre_de_la_persona .)
 
 
 state 7
 
-    (3) nombres -> nombre nombres .
+    (6) nombre_de_la_persona -> SPAN_INICIO . ID_NOMBRE_COMPLETO SPAN_STYLE NOMBRE SPAN_CIERRE
 
-    $end            reduce using rule 3 (nombres -> nombre nombres .)
+    ID_NOMBRE_COMPLETO shift and go to state 12
 
 
 state 8
 
-    (5) nombre -> PARTE_IZQUIERDA_LABEL CEDULA . NOMBRE PARTE_DERECHA_LABEL
+    (7) datos_del_padre -> nombre_del_padre . cedula_del_padre
+    (8) datos_del_padre -> nombre_del_padre .
+    (11) cedula_del_padre -> . SPAN_INICIO ID_IDENTIFICACION_DEL_PADRE SPAN_STYLE CEDULA SPAN_CIERRE
 
-    NOMBRE          shift and go to state 9
+  ! shift/reduce conflict for SPAN_INICIO resolved as shift
+    SPAN_INICIO     shift and go to state 15
 
+  ! SPAN_INICIO     [ reduce using rule 8 (datos_del_padre -> nombre_del_padre .) ]
+
+    cedula_del_padre               shift and go to state 14
 
 state 9
 
-    (5) nombre -> PARTE_IZQUIERDA_LABEL CEDULA NOMBRE . PARTE_DERECHA_LABEL
+    (9) datos_del_padre -> cedula_del_padre .
 
-    PARTE_DERECHA_LABEL shift and go to state 10
+    SPAN_INICIO     reduce using rule 9 (datos_del_padre -> cedula_del_padre .)
 
 
 state 10
 
-    (5) nombre -> PARTE_IZQUIERDA_LABEL CEDULA NOMBRE PARTE_DERECHA_LABEL .
+    (1) datos -> datos_de_la_persona datos_del_padre . datos_de_la_madre
+    (12) datos_de_la_madre -> . nombre_de_la_madre
+    (13) datos_de_la_madre -> . cedula_de_la_madre
+    (14) datos_de_la_madre -> . nombre_de_la_madre cedula_de_la_madre
+    (15) nombre_de_la_madre -> . SPAN_INICIO ID_NOMBRE_DE_LA_MADRE SPAN_STYLE NOMBRE SPAN_CIERRE
+    (16) cedula_de_la_madre -> . SPAN_INICIO ID_IDENTIFICACION_DE_LA_MADRE SPAN_STYLE CEDULA SPAN_CIERRE
 
-    PARTE_IZQUIERDA_LABEL reduce using rule 5 (nombre -> PARTE_IZQUIERDA_LABEL CEDULA NOMBRE PARTE_DERECHA_LABEL .)
-    $end            reduce using rule 5 (nombre -> PARTE_IZQUIERDA_LABEL CEDULA NOMBRE PARTE_DERECHA_LABEL .)
+    SPAN_INICIO     shift and go to state 19
 
+    nombre_de_la_madre             shift and go to state 17
+    datos_de_la_madre              shift and go to state 16
+    cedula_de_la_madre             shift and go to state 18
+
+state 11
+
+    (10) nombre_del_padre -> SPAN_INICIO . ID_NOMBRE_DEL_PADRE SPAN_STYLE NOMBRE SPAN_CIERRE
+    (11) cedula_del_padre -> SPAN_INICIO . ID_IDENTIFICACION_DEL_PADRE SPAN_STYLE CEDULA SPAN_CIERRE
+
+    ID_NOMBRE_DEL_PADRE shift and go to state 20
+    ID_IDENTIFICACION_DEL_PADRE shift and go to state 21
+
+
+state 12
+
+    (6) nombre_de_la_persona -> SPAN_INICIO ID_NOMBRE_COMPLETO . SPAN_STYLE NOMBRE SPAN_CIERRE
+
+    SPAN_STYLE      shift and go to state 22
+
+
+state 13
+
+    (5) cedula_de_la_persona -> SPAN_INICIO ID_CEDULA . SPAN_STYLE CEDULA SPAN_CIERRE
+
+    SPAN_STYLE      shift and go to state 23
+
+
+state 14
+
+    (7) datos_del_padre -> nombre_del_padre cedula_del_padre .
+
+    SPAN_INICIO     reduce using rule 7 (datos_del_padre -> nombre_del_padre cedula_del_padre .)
+
+
+state 15
+
+    (11) cedula_del_padre -> SPAN_INICIO . ID_IDENTIFICACION_DEL_PADRE SPAN_STYLE CEDULA SPAN_CIERRE
+
+    ID_IDENTIFICACION_DEL_PADRE shift and go to state 21
+
+
+state 16
+
+    (1) datos -> datos_de_la_persona datos_del_padre datos_de_la_madre .
+
+    $end            reduce using rule 1 (datos -> datos_de_la_persona datos_del_padre datos_de_la_madre .)
+
+
+state 17
+
+    (12) datos_de_la_madre -> nombre_de_la_madre .
+    (14) datos_de_la_madre -> nombre_de_la_madre . cedula_de_la_madre
+    (16) cedula_de_la_madre -> . SPAN_INICIO ID_IDENTIFICACION_DE_LA_MADRE SPAN_STYLE CEDULA SPAN_CIERRE
+
+    $end            reduce using rule 12 (datos_de_la_madre -> nombre_de_la_madre .)
+    SPAN_INICIO     shift and go to state 25
+
+    cedula_de_la_madre             shift and go to state 24
+
+state 18
+
+    (13) datos_de_la_madre -> cedula_de_la_madre .
+
+    $end            reduce using rule 13 (datos_de_la_madre -> cedula_de_la_madre .)
+
+
+state 19
+
+    (15) nombre_de_la_madre -> SPAN_INICIO . ID_NOMBRE_DE_LA_MADRE SPAN_STYLE NOMBRE SPAN_CIERRE
+    (16) cedula_de_la_madre -> SPAN_INICIO . ID_IDENTIFICACION_DE_LA_MADRE SPAN_STYLE CEDULA SPAN_CIERRE
+
+    ID_NOMBRE_DE_LA_MADRE shift and go to state 26
+    ID_IDENTIFICACION_DE_LA_MADRE shift and go to state 27
+
+
+state 20
+
+    (10) nombre_del_padre -> SPAN_INICIO ID_NOMBRE_DEL_PADRE . SPAN_STYLE NOMBRE SPAN_CIERRE
+
+    SPAN_STYLE      shift and go to state 28
+
+
+state 21
+
+    (11) cedula_del_padre -> SPAN_INICIO ID_IDENTIFICACION_DEL_PADRE . SPAN_STYLE CEDULA SPAN_CIERRE
+
+    SPAN_STYLE      shift and go to state 29
+
+
+state 22
+
+    (6) nombre_de_la_persona -> SPAN_INICIO ID_NOMBRE_COMPLETO SPAN_STYLE . NOMBRE SPAN_CIERRE
+
+    NOMBRE          shift and go to state 30
+
+
+state 23
+
+    (5) cedula_de_la_persona -> SPAN_INICIO ID_CEDULA SPAN_STYLE . CEDULA SPAN_CIERRE
+
+    CEDULA          shift and go to state 31
+
+
+state 24
+
+    (14) datos_de_la_madre -> nombre_de_la_madre cedula_de_la_madre .
+
+    $end            reduce using rule 14 (datos_de_la_madre -> nombre_de_la_madre cedula_de_la_madre .)
+
+
+state 25
+
+    (16) cedula_de_la_madre -> SPAN_INICIO . ID_IDENTIFICACION_DE_LA_MADRE SPAN_STYLE CEDULA SPAN_CIERRE
+
+    ID_IDENTIFICACION_DE_LA_MADRE shift and go to state 27
+
+
+state 26
+
+    (15) nombre_de_la_madre -> SPAN_INICIO ID_NOMBRE_DE_LA_MADRE . SPAN_STYLE NOMBRE SPAN_CIERRE
+
+    SPAN_STYLE      shift and go to state 32
+
+
+state 27
+
+    (16) cedula_de_la_madre -> SPAN_INICIO ID_IDENTIFICACION_DE_LA_MADRE . SPAN_STYLE CEDULA SPAN_CIERRE
+
+    SPAN_STYLE      shift and go to state 33
+
+
+state 28
+
+    (10) nombre_del_padre -> SPAN_INICIO ID_NOMBRE_DEL_PADRE SPAN_STYLE . NOMBRE SPAN_CIERRE
+
+    NOMBRE          shift and go to state 34
+
+
+state 29
+
+    (11) cedula_del_padre -> SPAN_INICIO ID_IDENTIFICACION_DEL_PADRE SPAN_STYLE . CEDULA SPAN_CIERRE
+
+    CEDULA          shift and go to state 35
+
+
+state 30
+
+    (6) nombre_de_la_persona -> SPAN_INICIO ID_NOMBRE_COMPLETO SPAN_STYLE NOMBRE . SPAN_CIERRE
+
+    SPAN_CIERRE     shift and go to state 36
+
+
+state 31
+
+    (5) cedula_de_la_persona -> SPAN_INICIO ID_CEDULA SPAN_STYLE CEDULA . SPAN_CIERRE
+
+    SPAN_CIERRE     shift and go to state 37
+
+
+state 32
+
+    (15) nombre_de_la_madre -> SPAN_INICIO ID_NOMBRE_DE_LA_MADRE SPAN_STYLE . NOMBRE SPAN_CIERRE
+
+    NOMBRE          shift and go to state 38
+
+
+state 33
+
+    (16) cedula_de_la_madre -> SPAN_INICIO ID_IDENTIFICACION_DE_LA_MADRE SPAN_STYLE . CEDULA SPAN_CIERRE
+
+    CEDULA          shift and go to state 39
+
+
+state 34
+
+    (10) nombre_del_padre -> SPAN_INICIO ID_NOMBRE_DEL_PADRE SPAN_STYLE NOMBRE . SPAN_CIERRE
+
+    SPAN_CIERRE     shift and go to state 40
+
+
+state 35
+
+    (11) cedula_del_padre -> SPAN_INICIO ID_IDENTIFICACION_DEL_PADRE SPAN_STYLE CEDULA . SPAN_CIERRE
+
+    SPAN_CIERRE     shift and go to state 41
+
+
+state 36
+
+    (6) nombre_de_la_persona -> SPAN_INICIO ID_NOMBRE_COMPLETO SPAN_STYLE NOMBRE SPAN_CIERRE .
+
+    SPAN_INICIO     reduce using rule 6 (nombre_de_la_persona -> SPAN_INICIO ID_NOMBRE_COMPLETO SPAN_STYLE NOMBRE SPAN_CIERRE .)
+
+
+state 37
+
+    (5) cedula_de_la_persona -> SPAN_INICIO ID_CEDULA SPAN_STYLE CEDULA SPAN_CIERRE .
+
+    SPAN_INICIO     reduce using rule 5 (cedula_de_la_persona -> SPAN_INICIO ID_CEDULA SPAN_STYLE CEDULA SPAN_CIERRE .)
+
+
+state 38
+
+    (15) nombre_de_la_madre -> SPAN_INICIO ID_NOMBRE_DE_LA_MADRE SPAN_STYLE NOMBRE . SPAN_CIERRE
+
+    SPAN_CIERRE     shift and go to state 42
+
+
+state 39
+
+    (16) cedula_de_la_madre -> SPAN_INICIO ID_IDENTIFICACION_DE_LA_MADRE SPAN_STYLE CEDULA . SPAN_CIERRE
+
+    SPAN_CIERRE     shift and go to state 43
+
+
+state 40
+
+    (10) nombre_del_padre -> SPAN_INICIO ID_NOMBRE_DEL_PADRE SPAN_STYLE NOMBRE SPAN_CIERRE .
+
+    SPAN_INICIO     reduce using rule 10 (nombre_del_padre -> SPAN_INICIO ID_NOMBRE_DEL_PADRE SPAN_STYLE NOMBRE SPAN_CIERRE .)
+
+
+state 41
+
+    (11) cedula_del_padre -> SPAN_INICIO ID_IDENTIFICACION_DEL_PADRE SPAN_STYLE CEDULA SPAN_CIERRE .
+
+    SPAN_INICIO     reduce using rule 11 (cedula_del_padre -> SPAN_INICIO ID_IDENTIFICACION_DEL_PADRE SPAN_STYLE CEDULA SPAN_CIERRE .)
+
+
+state 42
+
+    (15) nombre_de_la_madre -> SPAN_INICIO ID_NOMBRE_DE_LA_MADRE SPAN_STYLE NOMBRE SPAN_CIERRE .
+
+    SPAN_INICIO     reduce using rule 15 (nombre_de_la_madre -> SPAN_INICIO ID_NOMBRE_DE_LA_MADRE SPAN_STYLE NOMBRE SPAN_CIERRE .)
+    $end            reduce using rule 15 (nombre_de_la_madre -> SPAN_INICIO ID_NOMBRE_DE_LA_MADRE SPAN_STYLE NOMBRE SPAN_CIERRE .)
+
+
+state 43
+
+    (16) cedula_de_la_madre -> SPAN_INICIO ID_IDENTIFICACION_DE_LA_MADRE SPAN_STYLE CEDULA SPAN_CIERRE .
+
+    $end            reduce using rule 16 (cedula_de_la_madre -> SPAN_INICIO ID_IDENTIFICACION_DE_LA_MADRE SPAN_STYLE CEDULA SPAN_CIERRE .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for SPAN_INICIO in state 1 resolved as shift
+WARNING: shift/reduce conflict for SPAN_INICIO in state 8 resolved as shift
